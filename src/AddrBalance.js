@@ -1,6 +1,6 @@
 import queryAddrBalance from './util/queryAddrBalance';
 import { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 
 function AddrBalance() {
@@ -28,46 +28,53 @@ function AddrBalance() {
                 {
                     response && (
 
-                        <table border="1">
-                            <th>Properties</th>
-                            <th>Value</th>
-                            <tr>
-                                <td>address</td>
-                                <td>{response.address}</td>
-                            </tr>
-                            <tr>
-                                <td>total_received</td>
-                                <td>{response.total_received}</td>
-                            </tr>
-                            <tr>
-                                <td>total_sent</td>
-                                <td>{response.total_sent}</td>
-                            </tr>
-                            <tr>
-                                <td>balance</td>
-                                <td>{response.balance}</td>
-                            </tr>
-                            <tr>
-                                <td>unconfirmed_balance</td>
-                                <td>{response.unconfirmed_balance}</td>
-                            </tr>
-                            <tr>
-                                <td>final_balance</td>
-                                <td>{response.final_balance}</td>
-                            </tr>
-                            <tr>
-                                <td>n_tx</td>
-                                <td>{response.n_tx}</td>
-                            </tr>
-                            <tr>
-                                <td>unconfirmed_n_tx</td>
-                                <td>{response.unconfirmed_n_tx}</td>
-                            </tr>
-                            <tr>
-                                <td>final_n_tx</td>
-                                <td>{response.final_n_tx}</td>
-                            </tr>
-                        </table>
+                        <Table variant="dark" bordered striped="columns">
+                            <thead>
+                                <tr>
+
+                                    <th>Properties</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>address</td>
+                                    <td>{response.address}</td>
+                                </tr>
+                                <tr>
+                                    <td>total_received</td>
+                                    <td>{response.total_received}</td>
+                                </tr>
+                                <tr>
+                                    <td>total_sent</td>
+                                    <td>{response.total_sent}</td>
+                                </tr>
+                                <tr>
+                                    <td>balance</td>
+                                    <td>{response.balance}</td>
+                                </tr>
+                                <tr>
+                                    <td>unconfirmed_balance</td>
+                                    <td>{response.unconfirmed_balance}</td>
+                                </tr>
+                                <tr>
+                                    <td>final_balance</td>
+                                    <td>{response.final_balance}</td>
+                                </tr>
+                                <tr>
+                                    <td>n_tx</td>
+                                    <td>{response.n_tx}</td>
+                                </tr>
+                                <tr>
+                                    <td>unconfirmed_n_tx</td>
+                                    <td>{response.unconfirmed_n_tx}</td>
+                                </tr>
+                                <tr>
+                                    <td>final_n_tx</td>
+                                    <td>{response.final_n_tx}</td>
+                                </tr>
+                            </tbody>
+                        </Table>
                     )
                 }
             </div>
