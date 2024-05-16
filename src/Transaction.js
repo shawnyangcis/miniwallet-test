@@ -1,13 +1,10 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
-function Wallet() {
+export default function Transaction() {
     return (
         <Container>
-           Wallet 
+            Transaction
         </Container>
     )
-    
 }
-
-export default Wallet;

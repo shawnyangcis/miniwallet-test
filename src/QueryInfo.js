@@ -1,9 +1,9 @@
 import queryAddrBalance from './util/queryAddrBalance';
 import { useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Container, Button, Table, InputGroup, Form } from 'react-bootstrap';
 
 
-function AddrBalance() {
+function QueryInfo() {
     const [inputValue, setInputValue] = useState('');
     const [response, setResponse] = useState(null);
 
@@ -19,19 +19,25 @@ function AddrBalance() {
         });
     };
     return (
-        <div>
-            <input type='text' value={inputValue} onChange={(e) => setInputValue(e.target.value)}
-                placeholder='Inpue address please' />
-            <Button onClick={handleSubmit}>Query Address Balance</Button>
-            <div>
+        <Container>
+            <InputGroup>
+                <InputGroup.Text id='addr'>Bitcoin Address</InputGroup.Text>
+                <Form.Control
+                    placeholder="Inpue address please"
+                    aria-label="addr"
+                    aria-describedby="addr"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                />
+                <Button onClick={handleSubmit}>Query</Button>
+            </InputGroup>
+            <Container>
                 <h3>Balance result:</h3>
                 {
                     response && (
-
                         <Table variant="dark" bordered striped="columns">
                             <thead>
                                 <tr>
-
                                     <th>Properties</th>
                                     <th>Value</th>
                                 </tr>
@@ -77,9 +83,9 @@ function AddrBalance() {
                         </Table>
                     )
                 }
-            </div>
-        </div>
+            </Container>
+        </Container>
     );
 }
 
-export default AddrBalance;
+export default QueryInfo;
