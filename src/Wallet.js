@@ -1,17 +1,20 @@
 import React from 'react';
 import { useState } from 'react';
 import { Button, Container, InputGroup, Form } from 'react-bootstrap';
+import CreateWallet from './CreateWallet';
 
 function Wallet({addr, setAddr}) {
     const [inputValue, setInputValue] = useState('');
 
     function handleLogin() {
-        setAddr([...addr, inputValue]);
+        if (addr.indexOf(inputValue) === -1) {
+            setAddr([...addr, inputValue]);
+        }
     }
 
     return (
         <Container>
-            <Button>Create a new address</Button>
+            <CreateWallet/>
             <p></p>
             or
             <p></p>

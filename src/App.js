@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Container, Nav, Navbar, Stack, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { Container, Nav, Navbar, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import "./App.css";
 import QueryInfo from './QueryInfo';
@@ -8,17 +8,34 @@ import Wallet from './Wallet';
 import Home from './Home';
 
 function App() {
-  const [addr, setAddr] = useState([].fill(null));
+  const [addr, setAddr] = useState(() => {
+    const storedAddrList = localStorage.getItem("addrList");
+    return storedAddrList ? JSON.parse(storedAddrList) : [].fill(null)
+  });
+
+  useEffect(() => {
+    localStorage.setItem("addrList", JSON.stringify(addr));
+  }, [addr]);
+
   const [currentAddr, setCurrentAddr] = useState('');
 
-  function handleSelectAddr(selectedAddr) {
-    setCurrentAddr(selectedAddr);
+  function handleSelectAddr(eventKey, event) {
+    console.log(`handleSelectAddr eventKey=${eventKey}, event=${(event)}`);
+    setCurrentAddr(eventKey);
+  }
+
+  function handleCopyCurrentAddr() {
+    if (currentAddr) {
+      navigator.clipboard.writeText(currentAddr)
+        .then(() => alert(`Address has been copied to clipboard.`))
+        .catch((err) => console.error("Failed to copy text:", err));
+    }
   }
 
   function AddrList() {
     return (
       <Dropdown.Menu>
-        {addr.map((a, i) => (<Dropdown.Item key={i}>{a}</Dropdown.Item>))}
+        {addr.map((a, i) => (<Dropdown.Item key={a} eventKey={a}>{a}</Dropdown.Item>))}
       </Dropdown.Menu>
     );
   }
@@ -39,8 +56,8 @@ function App() {
             </Navbar.Collapse>
           </Container>
           <Container>
-              <Dropdown as={ButtonGroup}>
-                <Button variant="success">{addr}</Button>
+              <Dropdown as={ButtonGroup} onSelect={(eventKey, event) => handleSelectAddr(eventKey, event)}>
+                <Button variant="success" onClick={handleCopyCurrentAddr}>{currentAddr}</Button>
                 <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
                 <Dropdown.Menu>
                   <AddrList/>
@@ -56,7 +73,7 @@ function App() {
             <Route path='/' element={<Home/>} />
             <Route path='/queryInfo' element={<QueryInfo addr={addr} setAddr={setAddr} />} />
             <Route path='/transaction' element={<Transaction />} />
-            <Route path='/wallet' element={<Wallet  addr={addr} setAddr={setAddr} />} />
+            <Route path='/wallet' element={<Wallet addr={addr} setAddr={setAddr} />} />
           </Routes>
         </Container>
       </Router>
