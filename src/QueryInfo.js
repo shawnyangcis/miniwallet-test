@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Container, Button, Table, InputGroup, Form } from 'react-bootstrap';
 
 
-function QueryInfo() {
+function QueryInfo({addr, setAddr}) {
     const [inputValue, setInputValue] = useState('');
     const [response, setResponse] = useState(null);
 

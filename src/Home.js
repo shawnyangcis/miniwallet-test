@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
-function Transaction() {
+function Home() {
     return (
         <Container>
-            Transaction
+            A simple wallet app for BitCoin.
         </Container>
     )
 }
 
-export default Transaction;
+export default Home;
