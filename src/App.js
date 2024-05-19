@@ -58,7 +58,9 @@ function App() {
           <Container>
               <Dropdown as={ButtonGroup} onSelect={(eventKey, event) => handleSelectAddr(eventKey, event)}>
                 <Button variant="success" onClick={handleCopyCurrentAddr}>{currentAddr}</Button>
-                <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
+                <Dropdown.Toggle split variant="success" id="dropdown-split-basic">
+                  {currentAddr ? "" : "Please select an address or import one in Wallet page"}
+                </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <AddrList/>
                 </Dropdown.Menu>

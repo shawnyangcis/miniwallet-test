@@ -1,35 +1,23 @@
-import bitcore from "bitcore-lib"
 import axios from "axios";
 
+const createTxUrl = `http://api.blockcypher.com/v1/btc/test3/txs/new`;
+const sendTxUrl = `http://api.blockcypher.com/v1/btc/test3/txs/send`;
 
-const addr = "";
-const prevTxId = "";
-const apiUrl = "https://blockstream.info/testnet/api/tx";
 
-function submitTx() {
-    const privateKey = new bitcore.PrivateKey("", "testnet");
-    const utxo = {
-        "txId": prevTxId,
-        "outputIndex": 0,
-        "address": addr,
-        "script": "",
-        "satoshis": 18769
-    };
-    const transcation = new bitcore.Transaction()
-        .from(utxo)
-        .to("", 10000)
-        .change(addr)
-        .sign(privateKey);
-    const serializedTx = transcation.serialize({ disableDustOutputs: true });
-    console.log(`${serializedTx.toString()}`);
-
-    axios.post(apiUrl, serializedTx)
-        .then((resp) => {
-            console.log(`txId is ${resp.data}`);
-        }).catch((err) => {
-            console.log(err);
-        })
-        ;
+async function createTx(inputs, outputs, value, changeAddr) {
+    value = Number(value);
+    const response = await axios.post(createTxUrl, {
+        "inputs": [{ "addresses": inputs }],
+        "outputs": [{ "addresses": outputs, "value": value }],
+        // Because the fee is too high to generate a TX if using high or medium preference
+        "preference": "low",
+    });
+    return response;
 }
 
-export default submitTx;
+async function postTx(txSkeleton) {
+    const response = await axios.post(sendTxUrl, JSON.stringify(txSkeleton));
+    return response;
+}
+
+export { createTx, postTx };
